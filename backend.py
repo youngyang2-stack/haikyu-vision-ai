@@ -16,22 +16,25 @@ def analyze_video(video_file):
 
 @app.route("/process", methods=["POST"])
 def process():
-    token = request.headers.get("X-Secret-Token")
-    if token != SECRET_TOKEN:
-        abort(403)
+    try:
+        token = request.headers.get("X-Secret-Token")
+        if token != SECRET_TOKEN:
+            abort(403)
 
-    video = request.files.get("video")
-    if video is None:
-        return {"status": "error", "message": "No video uploaded"}, 400
+        video = request.files.get("video")
+        if video is None:
+            return {"status": "error", "message": "No video uploaded"}, 400
 
-    requests.post(DISCORD_WEBHOOK, json={"content": "Video payload received!"})
+        results = analyze_video(video)
 
-    results = analyze_video(video)
+        return {
+            "status": "success",
+            "results": results
+        }, 200
 
-    return {
-        "status": "success",
-        "results": results
-    }, 200
+    except Exception as e:
+        print("BACKEND ERROR:", e)
+        return {"status": "error", "message": str(e)}, 500
 
 if __name__ == "__main__":
     app.run(port=5000)
