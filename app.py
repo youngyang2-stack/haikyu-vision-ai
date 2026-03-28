@@ -2,7 +2,8 @@ import streamlit as st
 import time
 import requests
 
-
+def get_search_results():
+    return get_mock_search_results()
 
 # ─────────────────────────────────────────────
 # PAGE CONFIG  (must be first st call)
