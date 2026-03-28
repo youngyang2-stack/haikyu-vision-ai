@@ -11,15 +11,18 @@ def process():
     token = request.headers.get("X-Secret-Token")
     if token != SECRET_TOKEN:
         abort(403)
-    requests.post(DISCORD_WEBHOOK, json={"content": "Video payload received!"})
-    return {
-    "status": "success",
-    "results": [
+
+    # 👇 模拟返回检测结果
+    results = [
         {"ts": "0:03", "type": "Attack", "player": "Player 2"},
         {"ts": "0:11", "type": "Set", "player": "Player 5"},
-        {"ts": "0:18", "type": "Dig", "player": "Player 3"}
+        {"ts": "0:18", "type": "Dig", "player": "Player 3"},
     ]
-}, 200
+
+    return {
+        "status": "success",
+        "results": results
+    }, 200
 
 if __name__ == "__main__":
     app.run(port=5000)
