@@ -1,5 +1,4 @@
 from flask import Flask, request, abort
-from gemini_scanner import analyze_video_with_gemini
 
 app = Flask(__name__)
 
@@ -8,19 +7,11 @@ SECRET_TOKEN = "supersonic-boom-boom"
 
 def analyze_video(video_file):
     """
-    Current demo-stage pipeline:
-    1. Call Gemini scanner to detect 6v6 segments
-    2. Return stable placeholder play results for frontend demo
+    Stable demo version:
+    - Accept uploaded video
+    - Return structured demo results
+    - No Gemini call yet (to avoid backend crashes)
     """
-    try:
-        segments = analyze_video_with_gemini()
-        print("Gemini 6v6 segments:", segments)
-    except Exception as e:
-        print("Gemini scanner failed:", e)
-        segments = []
-
-    # For now, always return demo play results
-    # Later this can be replaced with real play classification output
     results = [
         {"ts": "0:03", "type": "Attack", "player": "Player 2"},
         {"ts": "0:11", "type": "Set", "player": "Player 5"},
@@ -29,7 +20,7 @@ def analyze_video(video_file):
 
     return {
         "status": "success",
-        "segments": segments,
+        "segments": [],
         "results": results
     }
 
