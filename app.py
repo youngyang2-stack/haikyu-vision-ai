@@ -28,7 +28,14 @@ def send_to_backend(video_bytes):
     # Fallback simulation if secrets not populated
     if not TUNNEL_URL:
         time.sleep(2)
-        return {"status": "success"}
+        return {
+            "status": "success",
+            "results": [
+                {"ts": "0:03", "type": "Attack", "player": "Player 2"},
+                {"ts": "0:11", "type": "Set", "player": "Player 5"},
+                {"ts": "0:18", "type": "Dig", "player": "Player 3"},
+            ]
+        }
 
     headers = {"X-Secret-Token": SECRET_TOKEN}
     try:
