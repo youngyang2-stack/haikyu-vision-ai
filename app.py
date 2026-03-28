@@ -326,33 +326,35 @@ with st.sidebar:
     search_clicked = st.button("⚡  Search Plays", use_container_width=True)
 
     # ── SEARCH LOGIC ──
-if search_clicked:
-    st.session_state.searching = True
-
-    with st.spinner("Scanning footage..."):
-        time.sleep(1.2)
-
-        # 👉 call backend
-        if st.session_state.video_bytes is not None:
-            res = send_to_backend(st.session_state.video_bytes.getvalue())
-        else:
-            res = None
-
-        # 👉 use backend results if available
-        if res and "results" in res:
-            mock_results = res["results"]
-        else:
-            mock_results = []
-
-        filtered = [
-            r for r in mock_results
-            if (play_type == "All" or r["type"] == play_type) and
-               (not player_id or player_id.lower() in r["player"].lower())
-        ]
-
-        st.session_state.search_results = filtered
-
-    st.session_state.searching = False
+    # — SEARCH LOGIC —
+    if search_clicked:
+        st.session_state.searching = True
+    
+        with st.spinner("Scanning footage..."):
+            time.sleep(1.2)
+    
+            # 👉 call backend
+            if st.session_state.video_bytes is not None:
+                res = send_to_backend(st.session_state.video_bytes.getvalue())
+            else:
+                res = None
+    
+            # 👉 use backend result ONLY
+            if res and "results" in res:
+                mock_results = res["results"]
+            else:
+                mock_results = []
+    
+            # 👉 filter results
+            filtered = [
+                r for r in mock_results
+                if (play_type == "All" or r["type"] == play_type) and
+                   (not player_id or player_id.lower() in r["player"].lower())
+            ]
+    
+            st.session_state.search_results = filtered
+    
+        st.session_state.searching = False
     # ── SEARCH RESULTS ──
     if st.session_state.search_results:
         count = len(st.session_state.search_results)
