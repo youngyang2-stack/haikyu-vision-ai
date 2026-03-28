@@ -2,6 +2,16 @@ import streamlit as st
 import time
 import requests
 
+def get_mock_search_results():
+    return [
+        {"ts": "0:03", "type": "Attack", "player": "Player 2"},
+        {"ts": "0:11", "type": "Set",    "player": "Player 5"},
+        {"ts": "0:18", "type": "Dig",    "player": "Player 3"},
+        {"ts": "0:27", "type": "Attack", "player": "Player 1"},
+        {"ts": "0:34", "type": "Serve",  "player": "Player 6"},
+        {"ts": "0:41", "type": "Block",  "player": "Player 4"},
+    ]
+
 # ─────────────────────────────────────────────
 # PAGE CONFIG  (must be first st call)
 # ─────────────────────────────────────────────
